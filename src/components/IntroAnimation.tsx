@@ -1,5 +1,20 @@
 import { useEffect, useRef } from "react";
 import { initCameraIntro, type CameraRefs } from "@/animations/camera";
+import p1 from "@/assets/p1.jpg";
+import p2 from "@/assets/p2.jpg";
+import p3 from "@/assets/p3.jpg";
+import p4 from "@/assets/p4.jpg";
+import p5 from "@/assets/p5.jpg";
+import p6 from "@/assets/p6.jpg";
+import p7 from "@/assets/p7.jpg";
+import p8 from "@/assets/p8.jpg";
+import p9 from "@/assets/p9.jpg";
+import heroCouple from "@/assets/luxury_hero.png";
+import svcWedding from "@/assets/service-wedding.jpg";
+import svcSangeet from "@/assets/service-sangeet.jpg";
+import svcBaby from "@/assets/service-baby.jpg";
+import founder from "@/assets/founder.jpg";
+import collage from "@/assets/collage.jpg";
 
 interface IntroAnimationProps {
   onComplete: () => void;
@@ -49,6 +64,30 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
     <div id="introOverlay" ref={introOverlayRef}>
       {/* Film grain overlay */}
       <div className="intro-grain" aria-hidden />
+
+      {/* Film strip reels background */}
+      <div className="film-strips-bg">
+        {[
+          { dir: "up",   imgs: [p1, p2, p3, heroCouple] },
+          { dir: "down", imgs: [p4, p5, p6, svcWedding] },
+          { dir: "up",   imgs: [p7, p8, p9, founder] },
+          { dir: "down", imgs: [svcSangeet, p1, p5, svcBaby] },
+          { dir: "up",   imgs: [p3, p6, p8, heroCouple] },
+          { dir: "down", imgs: [p2, p4, p7, collage] },
+          { dir: "up",   imgs: [p9, p5, svcWedding, p1] },
+        ].map((strip, si) => (
+          <div key={si} className="film-strip" data-dir={strip.dir}>
+            <div className="film-strip-inner">
+              {/* Duplicate the set twice for seamless infinite scroll */}
+              {[...strip.imgs, ...strip.imgs].map((img, fi) => (
+                <div key={fi} className="film-frame">
+                  <img src={img} alt="" loading="eager" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
 
       <div className="dust-field" ref={dustFieldRef} />
 
